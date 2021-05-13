@@ -14,7 +14,11 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    if(!element) {
+      throw new Error('Элемент не существует')
+    } else this.element = element
+      this.registerEvents();
+      this.update()
   }
 
   /**
@@ -25,7 +29,17 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-
+    const createAccButton = document.querySelector('.create-account');
+    const accounts = document.querySelectorAll('.accounts-panel .account')
+    createAccButton.addEventListener('click', ()=>{
+     const modal = App.getModal('createAccount');
+     modal.open()
+    });
+    for(let account of accounts) {
+      account.addEventListener('click', ()=>{
+        this.onSelectAccount(account)
+      })
+    }
   }
 
   /**
@@ -39,7 +53,14 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-
+    User.current()
+    if(User.current) {
+      Account.list()
+      if(Account.list) {
+        this.clear();
+        this.renderItem(Account.list)
+      }
+    }
   }
 
   /**
@@ -48,7 +69,10 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    const accounts = document.querySelectorAll('.accounts-panel .account');
+    for(let account of accounts) {
+      account.remove()
+    }
   }
 
   /**
@@ -59,7 +83,10 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+    const activeAccount = document.querySelector('.accounts-panel .active');
+    activeAccount.classList.remove('active');
+    element.classList.add('active');
+    App.showPage()
   }
 
   /**
@@ -68,7 +95,18 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-
+    const newAccount = document.createElement('li');
+    newAccount.classList.add('active', 'account');
+    newAccount.setAttribute('data-id', item.id)
+    const accHref = document.createElement('a');
+    accHref.setAttribute('href', '#');
+    const accName = document.createElement('span');
+    accName.innerText = item.name;
+    const accAmount = document.createElement('span');
+    accAmount.innerText = item.sum;
+    accHref.append(accName);
+    accHref.append(accAmount);
+    newAccount.append(accHref);
   }
 
   /**
@@ -78,6 +116,6 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-
+    this.element.append(this.getAccountHTML(data))
   }
 }
