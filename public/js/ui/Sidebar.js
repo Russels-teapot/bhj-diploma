@@ -19,7 +19,7 @@ class Sidebar {
    * */
   static initToggleButton() {
     const toggleButton = document.querySelector('.sidebar-toggle');
-    const sideBar = document.querySelector('.sidebar-mini app');
+    const sideBar = document.querySelector('.sidebar-mini');
     toggleButton.addEventListener('click', ()=>{
       sideBar.classList.toggle('sidebar-open')
     })

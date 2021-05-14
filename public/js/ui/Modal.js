@@ -25,7 +25,6 @@ class Modal {
    * */
   registerEvents() {
     const closingButtons = this.element.querySelectorAll('[data-dismiss=modal]')
-    console.log(Array.from(closingButtons))
     for (let button of closingButtons) {
       button.addEventListener('click', ()=> {
         this.onClose()

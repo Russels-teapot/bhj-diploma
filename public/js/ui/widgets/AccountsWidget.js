@@ -53,13 +53,11 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-    User.current()
-    if(User.current) {
-      Account.list()
-      if(Account.list) {
-        this.clear();
-        this.renderItem(Account.list)
-      }
+    const user = User.current()
+    if(user) {
+      Account.list(undefined, (err, response))
+      this.clear();
+      this.renderItem(response.data)
     }
   }
 
@@ -107,6 +105,7 @@ class AccountsWidget {
     accHref.append(accName);
     accHref.append(accAmount);
     newAccount.append(accHref);
+    return newAccount
   }
 
   /**
@@ -115,7 +114,9 @@ class AccountsWidget {
    * AccountsWidget.getAccountHTML HTML-код элемента
    * и добавляет его внутрь элемента виджета
    * */
-  renderItem(data){
-    this.element.append(this.getAccountHTML(data))
+  renderItem(data) {
+    data.forEach((item) => {
+      this.element.append(this.getAccountHTML(item))
+    })
   }
 }

@@ -9,14 +9,23 @@ const createRequest = (options = {}) => {
     const newRequest = new XMLHttpRequest();
     newRequest.withCredentials = true;
     newRequest.responseType = responseType;
+    newRequest.onload = ()=> {
+        if(newRequest.response.success) {
+            callback(null, newRequest.response)
+        } else {
+            callback(newRequest.response.error, null)
+        }
+    };
     if (method !== 'GET') {
-        const formData = new FormData();
-        formData.append('login', data.login);
-        formData.append('password', data.password);
-        newRequest.open(method, url)
-        newRequest.setRequestHeader(headers.name, headers.value);
-        newRequest.onload = callback;
-        newRequest.send(formData)
+        newRequest.open(method, url);
+        newRequest.setRequestHeader('Content-type', 'application/json')
+        // const formData = new FormData();
+        // formData.append('login', data.login);
+        // formData.append('password', data.password);
+        // newRequest.open(method, url)
+        // newRequest.setRequestHeader(headers.name, headers.value);
+        // newRequest.onload = callback;
+        newRequest.send(JSON.stringify(data))
     } else {
         const createURL = ()=>{
             Object.entries(data).map(([key, value]) => `${key}=${value}`);
@@ -26,13 +35,6 @@ const createRequest = (options = {}) => {
         const returnedURL = createURL();
         newRequest.open('GET', returnedURL)
         newRequest.setRequestHeader(headers.name, headers.value);
-        newRequest.onload = ()=> {
-            if(newRequest.response.success) {
-                callback(null, newRequest.response.data)
-            } else {
-                callback(newRequest.response.error, null)
-            }
-        };
         newRequest.send()
     }
 };

@@ -31,6 +31,14 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-    //Transaction.create()
+    Transaction.create(data, (e)=>{
+      if(e) {
+        console.error(e)
+        return
+      }
+     else App.update();
+     this.element.reset();
+     App.getModal('')
+    });
   }
 }

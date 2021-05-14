@@ -19,6 +19,7 @@ const app = express();
 app.use(express.static(`${__dirname}/${PUBLIC_PATH}`));
 
 app.use(cookieParser());
+app.use(express.json);
 app.use(cookieSession({
   name: 'session',
   keys: ['authorized', 'login'],

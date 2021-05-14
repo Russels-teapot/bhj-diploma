@@ -34,8 +34,17 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-    createRequest({url:this.URL+'/current', method:'GET', responseType:'json',  callback})
-
+    createRequest({
+      url:this.URL+'/current',
+      method:'GET',
+      responseType:'json',
+      callback:(e, response)=>{
+        if(!e) {
+          this.setCurrent(response.user);
+        }
+        callback(e, response)
+      }
+    })
   }
 
   /**
