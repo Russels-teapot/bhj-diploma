@@ -13,7 +13,7 @@ class AccountsWidget {
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * */
-  constructor( element ) {
+  constructor(element) {
     if(!element) {
       throw new Error('Элемент не существует')
     } else this.element = element
@@ -31,12 +31,14 @@ class AccountsWidget {
   registerEvents() {
     const createAccButton = document.querySelector('.create-account');
     const accounts = document.querySelectorAll('.accounts-panel .account')
+    console.log(accounts)
     createAccButton.addEventListener('click', ()=>{
      const modal = App.getModal('createAccount');
      modal.open()
     });
     for(let account of accounts) {
-      account.addEventListener('click', ()=>{
+      account.addEventListener('click', (e)=>{
+        e.preventDefault()
         this.onSelectAccount(account)
       })
     }
@@ -55,9 +57,15 @@ class AccountsWidget {
   update() {
     const user = User.current()
     if(user) {
-      Account.list(undefined, (err, response))
-      this.clear();
-      this.renderItem(response.data)
+      Account.list(undefined, (err, response)=>{
+        if(err) {
+          console.error(err)
+          return
+        }
+        else
+        this.clear();
+        this.renderItem(response.data)
+      })
     }
   }
 
@@ -80,11 +88,12 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount( element ) {
+  onSelectAccount(account) {
     const activeAccount = document.querySelector('.accounts-panel .active');
     activeAccount.classList.remove('active');
-    element.classList.add('active');
-    App.showPage()
+    account.classList.add('active');
+    console.log(account)
+    //App.showPage('transactions','')
   }
 
   /**
@@ -94,7 +103,7 @@ class AccountsWidget {
    * */
   getAccountHTML(item){
     const newAccount = document.createElement('li');
-    newAccount.classList.add('active', 'account');
+    newAccount.classList.add('account');
     newAccount.setAttribute('data-id', item.id)
     const accHref = document.createElement('a');
     accHref.setAttribute('href', '#');

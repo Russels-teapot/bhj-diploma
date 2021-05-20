@@ -45,10 +45,12 @@ class Sidebar {
       modal.open()
     });
     logoutButton.addEventListener('click', ()=>{
-      User.logout();
-      if(User.logout.success) {
-        App.setState('init')
-      }
+      User.logout(undefined, (e)=>{
+        if(e){
+          console.error(e)
+        }
+        else App.setState('init')
+      });
     })
   }
 }
