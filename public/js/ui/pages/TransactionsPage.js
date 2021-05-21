@@ -99,13 +99,17 @@ class TransactionsPage {
    * */
   render(options){
     this.lastOptions = options
-    Account.get(options, (e)=>{
+    Account.get(options, (e, response)=>{
       if(!options) {
         console.error(e)
         return
       }
       else this.renderTitle();
-      this.renderTransactions(Transaction.list())
+      this.renderTransactions(Transaction.list(undefined, (e, response)=> {
+        if (e) {
+        console.error(e)
+        } else return response
+      }))
     })
   }
 
@@ -175,6 +179,7 @@ class TransactionsPage {
         '            <i class="fa fa-trash"></i>  \n' +
         '        </button>\n' +
         '    </div>`;
+
     return transaction
   }
 

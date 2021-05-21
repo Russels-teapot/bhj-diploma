@@ -19,12 +19,6 @@ const createRequest = (options = {}) => {
     if (method !== 'GET') {
         newRequest.open(method, url);
         newRequest.setRequestHeader('Content-type', 'application/json')
-        // const formData = new FormData();
-        // formData.append('login', data.login);
-        // formData.append('password', data.password);
-        // newRequest.open(method, url)
-        // newRequest.setRequestHeader(headers.name, headers.value);
-        // newRequest.onload = callback;
         newRequest.send(JSON.stringify(data))
     } else {
         const createURL = ()=>{

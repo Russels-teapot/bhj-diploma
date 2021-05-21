@@ -30,18 +30,10 @@ class AccountsWidget {
    * */
   registerEvents() {
     const createAccButton = document.querySelector('.create-account');
-    const accounts = document.querySelectorAll('.accounts-panel .account')
-    console.log(accounts)
     createAccButton.addEventListener('click', ()=>{
      const modal = App.getModal('createAccount');
      modal.open()
     });
-    for(let account of accounts) {
-      account.addEventListener('click', (e)=>{
-        e.preventDefault()
-        this.onSelectAccount(account)
-      })
-    }
   }
 
   /**
@@ -90,10 +82,13 @@ class AccountsWidget {
    * */
   onSelectAccount(account) {
     const activeAccount = document.querySelector('.accounts-panel .active');
-    activeAccount.classList.remove('active');
-    account.classList.add('active');
+    const accountId = account.getAttribute('data-id')
+    if(activeAccount) {
+      activeAccount.classList.remove('active');
+      account.classList.add('active');
+    } else account.classList.add('active');
     console.log(account)
-    //App.showPage('transactions','')
+    App.showPage('transactions',{account_id:accountId})
   }
 
   /**
@@ -114,6 +109,10 @@ class AccountsWidget {
     accHref.append(accName);
     accHref.append(accAmount);
     newAccount.append(accHref);
+    newAccount.addEventListener('click', (e)=> {
+      e.preventDefault()
+      this.onSelectAccount(newAccount)
+    })
     return newAccount
   }
 
