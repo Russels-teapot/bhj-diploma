@@ -22,6 +22,7 @@ class Sidebar {
     const sideBar = document.querySelector('.sidebar-mini');
     toggleButton.addEventListener('click', ()=>{
       sideBar.classList.toggle('sidebar-open')
+      sideBar.classList.toggle('sidebar-collapse')
     })
   }
 
@@ -45,7 +46,7 @@ class Sidebar {
       modal.open()
     });
     logoutButton.addEventListener('click', ()=>{
-      User.logout(undefined, (e)=>{
+      User.logout({}, (e)=>{
         if(e){
           console.error(e)
         }

@@ -36,9 +36,19 @@ class CreateTransactionForm extends AsyncForm {
         console.error(e)
         return
       }
-     else App.update();
-     this.element.reset();
-     App.getModal('')
+     else {
+          App.update();
+          this.element.reset();
+          let modalName;
+          if(this.element.id === 'modal-new-income'){
+              modalName = 'newIncome'
+          }
+          if(this.element.id === 'modal-new-expense') {
+              modalName = 'newExpense'
+          }
+          const modal = App.getModal(modalName);
+          modal.close()
+      }
     });
   }
 }

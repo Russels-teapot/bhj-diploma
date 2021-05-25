@@ -14,7 +14,8 @@ class UserWidget {
   constructor(element){
     if(!element) {
       throw new Error('Элемент не существует')
-    } else this.element = element
+    }
+    this.element = element
   }
 
   /**

@@ -16,9 +16,10 @@ class AccountsWidget {
   constructor(element) {
     if(!element) {
       throw new Error('Элемент не существует')
-    } else this.element = element
-      this.registerEvents();
-      this.update()
+    }
+    this.element = element
+    this.registerEvents();
+    this.update()
   }
 
   /**
@@ -34,6 +35,15 @@ class AccountsWidget {
      const modal = App.getModal('createAccount');
      modal.open()
     });
+    const accountsList = document.querySelector('.accounts-panel');
+    accountsList.addEventListener('click', (e)=>{
+      const selectedAcc = e.target;
+      if(!selectedAcc.classList.contains('account')) {
+        return
+      }
+      e.preventDefault()
+      this.onSelectAccount(selectedAcc)
+    })
   }
 
   /**
@@ -86,9 +96,11 @@ class AccountsWidget {
     if(activeAccount) {
       activeAccount.classList.remove('active');
       account.classList.add('active');
-    } else account.classList.add('active');
-    console.log(account)
-    App.showPage('transactions',{account_id:accountId})
+    } else {
+      account.classList.add('active');
+      console.log(account)
+      App.showPage('transactions', {account_id: accountId})
+    }
   }
 
   /**
@@ -97,7 +109,18 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
+    const itemID = item.id;
+    const itemName = item.name;
+    const itemSum = item.sum;
     const newAccount = document.createElement('li');
+    newAccount.classList.add('account');
+    newAccount.setAttribute('data-id',itemID)
+    newAccount.innerHTML = `<a href="#">
+        <span>${itemName}</span> 
+        <span>${itemSum} ₽</span>
+    </a>`
+
+    /*const newAccount = document.createElement('li');
     newAccount.classList.add('account');
     newAccount.setAttribute('data-id', item.id)
     const accHref = document.createElement('a');
@@ -112,7 +135,7 @@ class AccountsWidget {
     newAccount.addEventListener('click', (e)=> {
       e.preventDefault()
       this.onSelectAccount(newAccount)
-    })
+    })*/
     return newAccount
   }
 

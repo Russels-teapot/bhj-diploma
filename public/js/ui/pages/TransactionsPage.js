@@ -14,7 +14,8 @@ class TransactionsPage {
     if(!element) {
       throw new Error('Элемент не существует')
     }
-    else this.element = element
+    this.element = element;
+    this.registerEvents()
   }
 
   /**
@@ -31,8 +32,17 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    const removeAccButtons = document.querySelectorAll('.remove-account');
-    const removeTransButtons = document.querySelectorAll('.transaction__remove');
+    const wrapper = document.querySelector('.content-wrapper');
+    wrapper.addEventListener('click', (e)=>{
+      const target = e.target
+      if(target.classList.contains('transaction__remove')) {
+        this.removeTransaction(target.getAttribute('data-id'))
+      }
+      if(target.classList.contains('remove-account')) {
+        this.removeAccount()
+      }
+    })
+    /*const removeTransButtons = document.querySelectorAll('.transaction__remove');
     for (let button of removeAccButtons) {
       button.addEventListener('click',()=>{
         this.removeAccount()
@@ -42,7 +52,7 @@ class TransactionsPage {
       button.addEventListener('click',()=>{
         this.removeTransaction(button.getAttribute('data-id'))
       })
-    }
+    }*/
   }
 
   /**
@@ -65,8 +75,10 @@ class TransactionsPage {
         if (e) {
           console.error(e)
         }
-        else this.clear()
-        App.updateWidgets()
+        else {
+          this.clear()
+          App.updateWidgets()
+        }
       });
 
     }
@@ -99,12 +111,14 @@ class TransactionsPage {
    * */
   render(options){
     this.lastOptions = options
+    if(!options) {
+      console.error()
+      return
+    }
     Account.get(options, (e, response)=>{
-      if(!options) {
-        console.error(e)
-        return
+      if(response) {
+        this.renderTitle(response.title);
       }
-      else this.renderTitle();
       this.renderTransactions(Transaction.list(undefined, (e, response)=> {
         if (e) {
         console.error(e)
@@ -157,28 +171,27 @@ class TransactionsPage {
     const itemId = item.id
     const transaction = document.createElement('div');
     transaction.classList.add('transaction', 'row');
-    transaction.innerHTML = `<div class="col-md-7 transaction__details">\n' +
-        '      <div class="transaction__icon">\n' +
-        '          <span class="fa fa-money fa-2x"></span>\n' +
-        '      </div>\n' +
-        '      <div class="transaction__info">\n' +
-        '          <h4 class="transaction__title">${itemName}</h4>\n' +
-        '          \n' +
-        '          <div class="transaction__date">${itemTime}</div>\n' +
-        '      </div>\n' +
-        '    </div>\n' +
-        '    <div class="col-md-3">\n' +
-        '      <div class="transaction__summ">\n' +
-        '      \n' +
-        '          ${itemSum} <span class="currency">₽</span>\n' +
-        '      </div>\n' +
-        '    </div>\n' +
-        '    <div class="col-md-2 transaction__controls">\n' +
-        '        <!-- data-id = id транзакции -->\n' +
-        '        <button class="btn btn-danger transaction__remove" data-id="${itemId}">\n' +
-        '            <i class="fa fa-trash"></i>  \n' +
-        '        </button>\n' +
-        '    </div>`;
+    transaction.innerHTML = `<div class="col-md-7 transaction__details">
+              <div class="transaction__icon">
+                  <span class="fa fa-money fa-2x"></span>
+              </div>
+              <div class="transaction__info">
+                  <h4 class="transaction__title">${itemName}</h4>
+                  
+                  <div class="transaction__date">${itemTime}</div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="transaction__summ">     
+                  ${itemSum} <span class="currency">₽</span>
+              </div>
+            </div>
+            <div class="col-md-2 transaction__controls">
+                <!-- data-id = id транзакции -->
+                <button class="btn btn-danger transaction__remove" data-id="${itemId}">
+                    <i class="fa fa-trash"></i>  
+                </button>
+            </div>`;
 
     return transaction
   }

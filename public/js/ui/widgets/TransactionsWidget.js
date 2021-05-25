@@ -14,8 +14,9 @@ class TransactionsWidget {
   constructor( element ) {
     if(!element) {
       throw new Error('Элемент не существует')
-    } else this.element = element
-      this.registerEvents()
+    }
+    this.element = element
+    this.registerEvents()
   }
   /**
    * Регистрирует обработчики нажатия на

@@ -14,10 +14,11 @@ class CreateAccountForm extends AsyncForm {
         console.error(e);
         return
       }
-    else
-    App.update();
-    App.getModal('createAccount').close();
-    this.element.reset();
+    else {
+        App.update();
+        App.getModal('createAccount').close();
+        this.element.reset()
+     }
     });
   }
 }

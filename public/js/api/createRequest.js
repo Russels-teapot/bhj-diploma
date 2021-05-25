@@ -4,11 +4,11 @@
  * */
 const createRequest = (options = {}) => {
     const {
-        url, headers={}, method, responseType, data={}, callback = () =>{}
+        url, method, data={}, callback = () =>{}
     } = options
     const newRequest = new XMLHttpRequest();
     newRequest.withCredentials = true;
-    newRequest.responseType = responseType;
+    newRequest.responseType = 'json';
     newRequest.onload = ()=> {
         if(newRequest.response.success) {
             callback(null, newRequest.response)
@@ -27,12 +27,8 @@ const createRequest = (options = {}) => {
             return dataString ? url + '?' + dataString : url
         }
         const returnedURL = createURL();
-        newRequest.open('GET', returnedURL)
-        newRequest.setRequestHeader(headers.name, headers.value);
+        newRequest.open('GET', returnedURL);
         newRequest.send()
     }
 };
 
-createRequest({url:'http://localhost:8000/user/current', method:'GET', responseType:'json', data:{}, callback:(err, response)=>{
-    console.log(err, response)
-    }})
