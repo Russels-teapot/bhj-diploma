@@ -17,9 +17,13 @@ const createRequest = (options = {}) => {
         }
     };
     if (method !== 'GET') {
+        const formData = new FormData();
+        for(let item in data) {
+            formData.append(`${item}`, `${data[item]}`)
+        }
         newRequest.open(method, url);
-        newRequest.setRequestHeader('Content-type', 'application/json')
-        newRequest.send(JSON.stringify(data))
+        newRequest.send(formData);
+        //newRequest.send(JSON.stringify(data))
     } else {
         const createURL = ()=>{
             Object.entries(data).map(([key, value]) => `${key}=${value}`);

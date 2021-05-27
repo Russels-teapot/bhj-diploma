@@ -42,17 +42,6 @@ class TransactionsPage {
         this.removeAccount()
       }
     })
-    /*const removeTransButtons = document.querySelectorAll('.transaction__remove');
-    for (let button of removeAccButtons) {
-      button.addEventListener('click',()=>{
-        this.removeAccount()
-      })
-    };
-    for (let button of removeTransButtons) {
-      button.addEventListener('click',()=>{
-        this.removeTransaction(button.getAttribute('data-id'))
-      })
-    }*/
   }
 
   /**
@@ -69,9 +58,10 @@ class TransactionsPage {
     if(!this.lastOptions) {
       return
     }
-    else alert(areYouShure)
     if(areYouShure) {
-      Account.remove(this.lastOptions, (e)=>{
+      const id = this.lastOptions.account_id
+      console.log('Account ID at Tansactions page '+ this.lastOptions.account_id)
+      Account.remove({id}, (e)=>{
         if (e) {
           console.error(e)
         }
@@ -80,7 +70,6 @@ class TransactionsPage {
           App.updateWidgets()
         }
       });
-
     }
   }
 
@@ -92,9 +81,8 @@ class TransactionsPage {
    * */
   removeTransaction( id ) {
     const areYouShure = confirm('Вы действительно хотите удалить эту транзакцию?');
-    alert(areYouShure);
     if(areYouShure) {
-      Transaction.remove(id, (e)=>{
+      Transaction.remove({id}, (e)=>{
         if(e) {
           console.error(e)
         }
@@ -110,20 +98,23 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
-    this.lastOptions = options
+    console.log(options)
     if(!options) {
-      console.error()
+      console.error('Options are required at TransactionsPage.render')
       return
     }
-    Account.get(options, (e, response)=>{
+    this.lastOptions = options
+    Account.get(options.account_id, (e, response)=>{
+      console.log(response)
       if(response) {
-        this.renderTitle(response.title);
+        this.renderTitle(response.data.name);
       }
-      this.renderTransactions(Transaction.list(undefined, (e, response)=> {
-        if (e) {
-        console.error(e)
-        } else return response
-      }))
+    Transaction.list(options, (e, response)=> {
+        if (response) {
+          console.log('Response at transaction page ' + response.data)
+          this.renderTransactions(response.data)
+        }
+      })
     })
   }
 
@@ -169,9 +160,8 @@ class TransactionsPage {
     const itemTime = this.formatDate(item.created_at);
     const itemSum = item.sum
     const itemId = item.id
-    const transaction = document.createElement('div');
-    transaction.classList.add('transaction', 'row');
-    transaction.innerHTML = `<div class="col-md-7 transaction__details">
+    const transaction = `<div class="transaction row"> 
+                <div class="col-md-7 transaction__details">
               <div class="transaction__icon">
                   <span class="fa fa-money fa-2x"></span>
               </div>
@@ -191,6 +181,7 @@ class TransactionsPage {
                 <button class="btn btn-danger transaction__remove" data-id="${itemId}">
                     <i class="fa fa-trash"></i>  
                 </button>
+            </div>
             </div>`;
 
     return transaction
@@ -201,10 +192,12 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions(data){
-    const content = document.querySelector('.content')
+    const content = document.querySelector('.content');
+    let totalHtml = ''
     for(let transaction of data) {
       const transactionHtml = this.getTransactionHTML(transaction);
-      content.append(transactionHtml)
+      totalHtml += transactionHtml
     }
+    content.innerHTML = totalHtml
   }
 }

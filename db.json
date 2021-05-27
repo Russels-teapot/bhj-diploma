@@ -188,6 +188,15 @@
     },
     {
       "id": "begqbb2aokp3zh0se"
+    },
+    {
+      "id": "begqbb2rkkp4cndva"
+    },
+    {
+      "id": "begqbb384kp5nc78e"
+    },
+    {
+      "id": "begqbb5x8kp6xzqb0"
     }
   ],
   "accounts": [
@@ -242,15 +251,6 @@
       "id": "3",
       "name": "Копилка",
       "sum": 1500,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-26 16:23:02",
-      "id": "4",
-      "name": "Молочные продукты",
-      "sum": 100,
       "type": "income",
       "user_id": "1"
     },

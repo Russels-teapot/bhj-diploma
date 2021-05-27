@@ -38,11 +38,12 @@ class AccountsWidget {
     const accountsList = document.querySelector('.accounts-panel');
     accountsList.addEventListener('click', (e)=>{
       const selectedAcc = e.target;
-      if(!selectedAcc.classList.contains('account')) {
+      const targetAcc = selectedAcc.closest('.account');
+      if(!targetAcc) {
         return
       }
       e.preventDefault()
-      this.onSelectAccount(selectedAcc)
+      this.onSelectAccount(targetAcc)
     })
   }
 
@@ -95,12 +96,9 @@ class AccountsWidget {
     const accountId = account.getAttribute('data-id')
     if(activeAccount) {
       activeAccount.classList.remove('active');
-      account.classList.add('active');
-    } else {
-      account.classList.add('active');
-      console.log(account)
-      App.showPage('transactions', {account_id: accountId})
     }
+    account.classList.add('active');
+    App.showPage('transactions', {account_id: accountId})
   }
 
   /**
@@ -119,23 +117,6 @@ class AccountsWidget {
         <span>${itemName}</span> 
         <span>${itemSum} ₽</span>
     </a>`
-
-    /*const newAccount = document.createElement('li');
-    newAccount.classList.add('account');
-    newAccount.setAttribute('data-id', item.id)
-    const accHref = document.createElement('a');
-    accHref.setAttribute('href', '#');
-    const accName = document.createElement('span');
-    accName.innerText = item.name;
-    const accAmount = document.createElement('span');
-    accAmount.innerText = item.sum;
-    accHref.append(accName);
-    accHref.append(accAmount);
-    newAccount.append(accHref);
-    newAccount.addEventListener('click', (e)=> {
-      e.preventDefault()
-      this.onSelectAccount(newAccount)
-    })*/
     return newAccount
   }
 

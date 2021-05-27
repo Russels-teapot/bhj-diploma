@@ -12,7 +12,8 @@ class Account extends Entity {
       if(!id) {
           throw new Error('ID is required in Account.get')
       }
+      console.log('id из Account.js ' + id)
       const url = this.URL + '/' + id
-      createRequest({url:url, method:'GET', data:{id}, callback})
+      createRequest({url:url, method:'GET', data:{}, callback})
   }
 }
