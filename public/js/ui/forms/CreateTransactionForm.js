@@ -50,10 +50,10 @@ class CreateTransactionForm extends AsyncForm {
           App.update();
           this.element.reset();
           let modalName;
-          if(this.element.id === 'modal-new-income'){
+          if(this.element.closest('#modal-new-income')) {
               modalName = 'newIncome'
           }
-          if(this.element.id === 'modal-new-expense') {
+          if(this.element.closest('#modal-new-expense')) {
               modalName = 'newExpense'
           }
           const modal = App.getModal(modalName);
