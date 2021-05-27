@@ -26,7 +26,7 @@ class CreateTransactionForm extends AsyncForm {
         else {
             let items = ''
             for(let item of response.data) {
-                let listItem = `<option value="${item.account_id}">${item.name}</option>)`
+                let listItem = `<option value="${item.id}">${item.name}</option>)`
                 items += listItem
             }
             AccountsList.innerHTML = items

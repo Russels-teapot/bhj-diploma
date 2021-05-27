@@ -142,13 +142,10 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate(date){
-    const monthList = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
-    const parsedDate = date.split(' ');
-    const day = parsedDate[0].split('-');
-    const month = +day[1] - 1;
-    const time = parsedDate[1].split(':');
-    const dateString = day[2] + ' ' + monthList[month] + ' ' + day[0] + ' г. в ' + time[0] + ':' + time[1]
-    return dateString
+    const parsedDate = new Date(date);
+    const dateString = parsedDate.toLocaleDateString('ru', {month: 'long', year:'numeric', day:'numeric'});
+    const timeString = parsedDate.toLocaleTimeString('ru', {hour:'numeric', minute:'numeric'});
+    return `${dateString} в ${timeString}`
   }
 
   /**
