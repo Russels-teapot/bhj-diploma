@@ -14,11 +14,11 @@ class AsyncForm {
    * */
   constructor(element) {
     if (!element) {
-      throw new Error('Элемент не существует')
+      throw new Error('Элемент не существует');
     }
-    this.element = element
-    this.registerEvents()
-  }
+    this.element = element;
+    this.registerEvents();
+  };
 
   /**
    * Необходимо запретить отправку формы и в момент отправки
@@ -27,10 +27,9 @@ class AsyncForm {
   registerEvents() {
     this.element.addEventListener('submit', (e) => {
       e.preventDefault();
-      this.submit()
+      this.submit();
     });
-
-  }
+  };
 
   /**
    * Преобразует данные формы в объект вида
@@ -41,13 +40,13 @@ class AsyncForm {
    * */
   getData() {
     const formFields = this.element.querySelectorAll('.form-control');
-    const formData = {}
+    const formData = {};
     for (let field of formFields) {
       formData[field.getAttribute('name')] = field.value
     }
-    console.log(formData)
+    console.log(formData);
     return formData
-  }
+  };
 
   /**
    *
@@ -56,13 +55,13 @@ class AsyncForm {
 
   onSubmit(options){
 
-  }
+  };
 
   /**
    * Вызывает метод onSubmit и передаёт туда
    * данные, полученные из метода getData()
    * */
   submit() {
-    this.onSubmit(this.getData())
+    this.onSubmit(this.getData());
   }
 }

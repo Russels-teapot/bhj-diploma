@@ -9,8 +9,8 @@ class CreateTransactionForm extends AsyncForm {
    * */
   constructor(element) {
     super(element);
-    this.renderAccountsList()
-  }
+    this.renderAccountsList();
+  };
 
   /**
    * Получает список счетов с помощью Account.list
@@ -19,20 +19,18 @@ class CreateTransactionForm extends AsyncForm {
   renderAccountsList() {
     const AccountsList = this.element.querySelector('.accounts-select')
     Account.list(undefined, (e, response)=>{
-        if(e){
+        if(e) {
             console.error(e);
             return
         }
-        else {
-            let items = ''
-            for(let item of response.data) {
-                let listItem = `<option value="${item.id}">${item.name}</option>)`
-                items += listItem
-            }
-            AccountsList.innerHTML = items
-        }
+        let items = ''
+          for(let item of response.data) {
+            let listItem = `<option value="${item.id}">${item.name}</option>)`
+            items += listItem
+          }
+        AccountsList.innerHTML = items;
     });
-  }
+  };
 
   /**
    * Создаёт новую транзакцию (доход или расход)
@@ -41,24 +39,26 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
+    if(this.element.closest('#modal-new-income')) {
+      data.type = 'income'
+    }
+    else data.type = 'expense';
     Transaction.create(data, (e)=>{
       if(e) {
-        console.error(e)
+        console.error(e);
         return
       }
-     else {
-          App.update();
-          this.element.reset();
-          let modalName;
-          if(this.element.closest('#modal-new-income')) {
-              modalName = 'newIncome'
-          }
-          if(this.element.closest('#modal-new-expense')) {
-              modalName = 'newExpense'
-          }
-          const modal = App.getModal(modalName);
-          modal.close()
+      App.update();
+      this.element.reset();
+      let modalName;
+      if(this.element.closest('#modal-new-income')) {
+        modalName = 'newIncome'
       }
+      if(this.element.closest('#modal-new-expense')) {
+        modalName = 'newExpense';
+      }
+      const modal = App.getModal(modalName);
+      modal.close();
     });
   }
 }

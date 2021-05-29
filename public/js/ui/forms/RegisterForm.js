@@ -14,11 +14,10 @@ class RegisterForm extends AsyncForm {
       if (e) {
         console.error(e);
         return
-      } else {
-        App.setState('user-logged');
-        App.getModal('register').close()
-        this.element.reset()
       }
+      App.setState('user-logged');
+      App.getModal('register').close();
+      this.element.reset();
     });
   }
 }

@@ -10,7 +10,7 @@ class Sidebar {
   static init() {
     this.initAuthLinks();
     this.initToggleButton();
-  }
+  };
 
   /**
    * Отвечает за скрытие/показа боковой колонки:
@@ -21,10 +21,10 @@ class Sidebar {
     const toggleButton = document.querySelector('.sidebar-toggle');
     const sideBar = document.querySelector('.sidebar-mini');
     toggleButton.addEventListener('click', ()=>{
-      sideBar.classList.toggle('sidebar-open')
-      sideBar.classList.toggle('sidebar-collapse')
-    })
-  }
+      sideBar.classList.toggle('sidebar-open');
+      sideBar.classList.toggle('sidebar-collapse');
+    });
+  };
 
   /**
    * При нажатии на кнопку входа, показывает окно входа
@@ -39,19 +39,19 @@ class Sidebar {
     const logoutButton = document.querySelector('.menu-item_logout');
     regButton.addEventListener('click', ()=>{
       const modal = App.getModal('register');
-      modal.open()
+      modal.open();
     });
     loginButton.addEventListener('click', ()=>{
       const modal = App.getModal('login');
-      modal.open()
+      modal.open();
     });
     logoutButton.addEventListener('click', ()=>{
       User.logout({}, (e)=>{
         if(e){
-          console.error(e)
+          console.error(e);
         }
-        else App.setState('init')
+        else App.setState('init');
       });
-    })
-  }
+    });
+  };
 }

@@ -10,10 +10,9 @@ class Account extends Entity {
   static URL = '/account'
   static get(id, callback){
       if(!id) {
-          throw new Error('ID is required in Account.get')
+          throw new Error('ID is required in Account.get');
       }
-      console.log('id из Account.js ' + id)
-      const url = this.URL + '/' + id
-      createRequest({url:url, method:'GET', data:{}, callback})
-  }
+      const url = this.URL + '/' + id;
+      createRequest({url:url, method:'GET', data:{}, callback});
+  };
 }

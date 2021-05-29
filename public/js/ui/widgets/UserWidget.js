@@ -13,10 +13,10 @@ class UserWidget {
    * */
   constructor(element){
     if(!element) {
-      throw new Error('Элемент не существует')
+      throw new Error('Элемент не существует');
     }
-    this.element = element
-  }
+    this.element = element;
+  };
 
   /**
    * Получает информацию о текущем пользователе
@@ -28,7 +28,7 @@ class UserWidget {
   update(){
     const user = User.current();
     if(user) {
-      document.querySelector('.user-name').textContent = user.name
+      document.querySelector('.user-name').textContent = user.name;
     }
-  }
+  };
 }

@@ -10,24 +10,24 @@ class User {
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    localStorage.setItem('user', JSON.stringify(user))
-  }
+    localStorage.setItem('user', JSON.stringify(user));
+  };
 
   /**
    * Удаляет информацию об авторизованном
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-    localStorage.removeItem('user')
-  }
+    localStorage.removeItem('user');
+  };
 
   /**
    * Возвращает текущего авторизованного пользователя
    * из локального хранилища
    * */
   static current() {
-    return JSON.parse(localStorage.getItem('user'))
-  }
+    return JSON.parse(localStorage.getItem('user'));
+  };
 
   /**
    * Получает информацию о текущем
@@ -42,10 +42,10 @@ class User {
         if(!e) {
           this.setCurrent(response.user);
         }
-        callback(e, response)
+        callback(e, response);
       }
-    })
-  }
+    });
+  };
 
   /**
    * Производит попытку авторизации.
@@ -66,7 +66,7 @@ class User {
         callback(err, response);
       }
     });
-  }
+  };
 
   /**
    * Производит попытку регистрации пользователя.
@@ -87,7 +87,7 @@ class User {
         callback(err, response);
       }
     });
-  }
+  };
 
   /**
    * Производит выход из приложения. После успешного

@@ -12,18 +12,18 @@ class TransactionsPage {
    * */
   constructor( element ) {
     if(!element) {
-      throw new Error('Элемент не существует')
+      throw new Error('Элемент не существует');
     }
     this.element = element;
-    this.registerEvents()
-  }
+    this.registerEvents();
+  };
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    this.render(this.lastOptions)
-  }
+    this.render(this.lastOptions);
+  };
 
   /**
    * Отслеживает нажатие на кнопку удаления транзакции
@@ -34,15 +34,16 @@ class TransactionsPage {
   registerEvents() {
     const wrapper = document.querySelector('.content-wrapper');
     wrapper.addEventListener('click', (e)=>{
-      const target = e.target
-      if(target.classList.contains('transaction__remove')) {
-        this.removeTransaction(target.getAttribute('data-id'))
+      const target = e.target;
+      const removeButton = target.closest('.transaction__remove');
+      if(removeButton) {
+        this.removeTransaction(removeButton.getAttribute('data-id'));
       }
-      if(target.classList.contains('remove-account')) {
-        this.removeAccount()
+      if(target.closest('.remove-account')) {
+        this.removeAccount();
       }
     })
-  }
+  };
 
   /**
    * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
@@ -54,24 +55,23 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    const areYouShure = confirm('Вы действительно хотите удалить счёт?')
+    const areYouShure = confirm('Вы действительно хотите удалить счёт?');
     if(!this.lastOptions) {
       return
     }
     if(areYouShure) {
-      const id = this.lastOptions.account_id
-      console.log('Account ID at Tansactions page '+ this.lastOptions.account_id)
+      const id = this.lastOptions.account_id;
       Account.remove({id}, (e)=>{
         if (e) {
-          console.error(e)
+          console.error(e);
         }
         else {
-          this.clear()
-          App.updateWidgets()
+          this.clear();
+          App.updateWidgets();
         }
       });
     }
-  }
+  };
 
   /**
    * Удаляет транзакцию (доход или расход). Требует
@@ -84,12 +84,12 @@ class TransactionsPage {
     if(areYouShure) {
       Transaction.remove({id}, (e)=>{
         if(e) {
-          console.error(e)
+          console.error(e);
         }
-        else App.update()
-      })
+        else App.update();
+      });
     }
-  }
+  };
 
   /**
    * С помощью Account.get() получает название счёта и отображает
@@ -98,25 +98,22 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
-    console.log(options)
     if(!options) {
-      console.error('Options are required at TransactionsPage.render')
+      console.error('Options are required at TransactionsPage.render');
       return
-    }
-    this.lastOptions = options
+    };
+    this.lastOptions = options;
     Account.get(options.account_id, (e, response)=>{
-      console.log(response)
       if(response) {
         this.renderTitle(response.data.name);
       }
     Transaction.list(options, (e, response)=> {
         if (response) {
-          console.log('Response at transaction page ' + response.data)
-          this.renderTransactions(response.data)
+          this.renderTransactions(response.data);
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   /**
    * Очищает страницу. Вызывает
@@ -126,16 +123,16 @@ class TransactionsPage {
   clear() {
     this.renderTransactions([]);
     this.renderTitle('Название счёта');
-    this.lastOptions = ''
-  }
+    this.lastOptions = '';
+  };
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name){
     const title = this.element.querySelector('.content-title');
-    title.textContent = name
-  }
+    title.textContent = name;
+  };
 
   /**
    * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
@@ -145,8 +142,8 @@ class TransactionsPage {
     const parsedDate = new Date(date);
     const dateString = parsedDate.toLocaleDateString('ru', {month: 'long', year:'numeric', day:'numeric'});
     const timeString = parsedDate.toLocaleTimeString('ru', {hour:'numeric', minute:'numeric'});
-    return `${dateString} в ${timeString}`
-  }
+    return `${dateString} в ${timeString}`;
+  };
 
   /**
    * Формирует HTML-код транзакции (дохода или расхода).
@@ -155,8 +152,8 @@ class TransactionsPage {
   getTransactionHTML(item){
     const itemName = item.name;
     const itemTime = this.formatDate(item.created_at);
-    const itemSum = item.sum
-    const itemId = item.id
+    const itemSum = item.sum;
+    const itemId = item.id;
     const transaction = `<div class="transaction row"> 
                 <div class="col-md-7 transaction__details">
               <div class="transaction__icon">
@@ -182,7 +179,7 @@ class TransactionsPage {
             </div>`;
 
     return transaction
-  }
+  };
 
   /**
    * Отрисовывает список транзакций на странице
@@ -190,11 +187,11 @@ class TransactionsPage {
    * */
   renderTransactions(data){
     const content = document.querySelector('.content');
-    let totalHtml = ''
+    let totalHtml = '';
     for(let transaction of data) {
       const transactionHtml = this.getTransactionHTML(transaction);
       totalHtml += transactionHtml
     }
-    content.innerHTML = totalHtml
+    content.innerHTML = totalHtml;
   }
 }

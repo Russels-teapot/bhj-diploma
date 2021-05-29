@@ -11,19 +11,18 @@ const createRequest = (options = {}) => {
     newRequest.responseType = 'json';
     newRequest.onload = ()=> {
         if(newRequest.response.success) {
-            callback(null, newRequest.response)
+            callback(null, newRequest.response);
         } else {
-            callback(newRequest.response.error, null)
+            callback(newRequest.response.error, null);
         }
     };
     if (method !== 'GET') {
         const formData = new FormData();
         for(let item in data) {
-            formData.append(`${item}`, `${data[item]}`)
+            formData.append(`${item}`, `${data[item]}`);
         }
         newRequest.open(method, url);
         newRequest.send(formData);
-        //newRequest.send(JSON.stringify(data))
     } else {
         const createURL = ()=>{
             Object.entries(data).map(([key, value]) => `${key}=${value}`);
@@ -32,7 +31,7 @@ const createRequest = (options = {}) => {
         }
         const returnedURL = createURL();
         newRequest.open('GET', returnedURL);
-        newRequest.send()
+        newRequest.send();
     }
 };
 

@@ -212,6 +212,21 @@
     },
     {
       "id": "begqbb4oskp75bexf"
+    },
+    {
+      "id": "begqbb4owkp9m7mzt"
+    },
+    {
+      "id": "begqbb4owkp9m7om8"
+    },
+    {
+      "id": "begqbb264kp9m99ue"
+    },
+    {
+      "id": "begqbb2bkkp9nt0ey"
+    },
+    {
+      "id": "begqbb2ugkp9ntgyz"
     }
   ],
   "accounts": [
@@ -367,6 +382,24 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "begqbb52gkp9nkuxj",
+      "type": "income",
+      "name": "Доход 1",
+      "sum": 6777,
+      "account_id": "begqbb5y0kooct36k",
+      "user_id": "begqbb5x8koo9xlmi",
+      "created_at": "2021-05-29T11:10:40.278Z"
+    },
+    {
+      "id": "begqbb4e0kp9oaipk",
+      "type": "expense",
+      "name": "Расход1",
+      "sum": 577,
+      "account_id": "begqbb5y0kooct36k",
+      "user_id": "begqbb5x8koo9xlmi",
+      "created_at": "2021-05-29T11:30:37.495Z"
     }
   ]
 }
